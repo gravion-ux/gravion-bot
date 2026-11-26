@@ -4,7 +4,10 @@ These tests exercise only the web layer (web/server.py). They do not import
 or run the original bot code.
 """
 
+import http.client
+import json
 import sys
+import threading
 import unittest
 from pathlib import Path
 
@@ -47,6 +50,42 @@ class CatalogTests(unittest.TestCase):
     def test_unknown_command_falls_through(self):
         self.assertIsNone(server.built_in_reply("/not-a-command"))
         self.assertIsNone(server.built_in_reply("hello there"))
+
+
+class RoutingTests(unittest.TestCase):
+    def test_request_path_ignores_query_and_fragment(self):
+        self.assertEqual(server.request_path("/api/health?source=test"), "/api/health")
+        self.assertEqual(server.request_path("/styles.css?v=1#top"), "/styles.css")
+        self.assertEqual(server.request_path(""), "/")
+
+    def test_routes_accept_query_strings(self):
+        httpd = server.create_server(port=0)
+        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+        thread.start()
+        try:
+            port = httpd.server_address[1]
+            conn = http.client.HTTPConnection("127.0.0.1", port, timeout=5)
+            conn.request("GET", "/api/health?source=test")
+            response = conn.getresponse()
+            payload = json.loads(response.read().decode("utf-8"))
+            self.assertEqual(response.status, 200)
+            self.assertTrue(payload["ok"])
+
+            conn.request(
+                "POST",
+                "/api/chat?source=test",
+                body=json.dumps({"message": "/ping", "session_id": "test"}),
+                headers={"Content-Type": "application/json"},
+            )
+            response = conn.getresponse()
+            payload = json.loads(response.read().decode("utf-8"))
+            self.assertEqual(response.status, 200)
+            self.assertIn("pong", payload["reply"])
+            conn.close()
+        finally:
+            httpd.shutdown()
+            httpd.server_close()
+            thread.join(timeout=5)
 
 
 if __name__ == "__main__":

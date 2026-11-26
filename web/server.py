@@ -16,6 +16,7 @@ import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import urlsplit
 
 WEB_DIR = Path(__file__).resolve().parent
 MAX_MESSAGE_CHARS = 4000
@@ -136,6 +137,11 @@ def clean_text(value: object, limit: int) -> str:
     return text[:limit]
 
 
+def request_path(raw_path: str) -> str:
+    """Return the route path, ignoring any query string or fragment."""
+    return urlsplit(raw_path).path or "/"
+
+
 def bot_configured() -> bool:
     return bool(os.environ.get("GRAVION_BOT_API_URL") or os.environ.get("GRAVION_BOT_COMMAND"))
 
@@ -205,13 +211,14 @@ class GravionWebHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self) -> None:  # noqa: N802 - stdlib handler name
-        if self.path == "/api/health":
+        path = request_path(self.path)
+        if path == "/api/health":
             self.send_json(200, {"ok": True, "bot_configured": bot_configured(), "commands": COMMANDS, "pets_url": PETS_URL})
             return
-        if self.path == "/api/commands":
+        if path == "/api/commands":
             self.send_json(200, {"ok": True, "commands": COMMANDS, "pets_url": PETS_URL})
             return
-        static = STATIC_FILES.get(self.path)
+        static = STATIC_FILES.get(path)
         if not static:
             self.send_json(404, {"ok": False, "error": "Not found"})
             return
@@ -229,7 +236,7 @@ class GravionWebHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_POST(self) -> None:  # noqa: N802 - stdlib handler name
-        if self.path != "/api/chat":
+        if request_path(self.path) != "/api/chat":
             self.send_json(404, {"ok": False, "error": "Not found"})
             return
         try:
