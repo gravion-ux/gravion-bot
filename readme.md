@@ -11,6 +11,24 @@
 
 Gravion Bot is Priyanshu Kumar Thakur's terminal-first bot project with a separate web command deck. The original bot workflow remains in the existing workspace packages; the web shell in `web/` adds browser access without changing the original bot logic.
 
+## Install
+
+Prerequisites: Node.js 24 and pnpm (the repo enforces pnpm — npm/yarn installs are rejected), plus a PostgreSQL database for the API server.
+
+```sh
+git clone https://github.com/gravion-ux/gravion-bot.git
+cd gravion-bot
+pnpm install
+```
+
+Set the required environment variable before starting the API server:
+
+```sh
+export DATABASE_URL="postgres://user:password@localhost:5432/gravion_bot"
+```
+
+The web command deck needs no install — it runs on the Python 3 standard library only (see [Web interface](#web-interface)).
+
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
@@ -56,3 +74,7 @@ Gravion Pets: https://github.com/gravion-ux/gravion-pets
 ## Credit
 
 Priyanshu Kumar Thakur
+
+## License
+
+MIT — see [LICENSE](LICENSE).
