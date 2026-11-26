@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gravion Bot</title>
+  <meta name="description" content="Gravion Bot web interface by Priyanshu Kumar Thakur." />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Gravion Bot</p>
+        <h1>Terminal bot, web command deck.</h1>
+        <p class="sub">The original bot workflow stays intact. This web layer adds fast commands, status, and Gravion Pets access.</p>
+        <p id="status" class="status">Checking connection…</p>
+      </div>
+      <div class="hero-card" aria-label="Quick actions">
+        <button type="button" data-command="/help">/help</button>
+        <button type="button" data-command="/pets">/pets</button>
+        <button type="button" data-command="/status">/status</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <section class="chat panel" aria-label="Chat">
+        <div class="panel-head">
+          <h2>Chat</h2>
+          <span>Commands work instantly</span>
+        </div>
+        <div id="messages" class="messages" aria-live="polite">
+          <article class="message bot">
+            <strong>Gravion Bot</strong>
+            <p>Try /help, /pets, or /status. Other messages use the configured bot endpoint.</p>
+          </article>
+        </div>
+        <form id="chat-form" class="composer">
+          <label class="sr-only" for="message">Message</label>
+          <textarea id="message" rows="3" maxlength="4000" placeholder="Type a message or command…"></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </section>
+
+      <aside class="side">
+        <section class="panel commands" aria-label="Commands">
+          <div class="panel-head">
+            <h2>Commands</h2>
+            <span>Built in</span>
+          </div>
+          <div id="command-list" class="command-list"></div>
+        </section>
+
+        <section class="panel pets" aria-label="Gravion Pets">
+          <div class="panel-head">
+            <h2>Gravion Pets</h2>
+            <span>Companion project</span>
+          </div>
+          <p>Collect, evolve, and play with virtual pets across cultures in Gravion Pets.</p>
+          <a class="pet-link" href="https://github.com/gravion-ux/gravion-pets" target="_blank" rel="noreferrer">Open Gravion Pets</a>
+          <button type="button" class="ghost" data-command="/pets">Show pet info</button>
+        </section>
+      </aside>
+    </section>
+
+    <footer>Gravion Bot · Priyanshu Kumar Thakur</footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

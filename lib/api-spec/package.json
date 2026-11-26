@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "orval": "^8.18.0"
+  },
+  "name": "@workspace/api-spec",
+  "private": true,
+  "scripts": {
+    "codegen": "orval --config ./orval.config.ts && pnpm -w run typecheck:libs"
+  },
+  "version": "0.0.0"
+}
