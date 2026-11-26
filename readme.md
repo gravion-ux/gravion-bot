@@ -1,5 +1,14 @@
 # Gravion Bot
 
+![Gravion Bot](assets/banner.svg)
+
+**Gravion Bot** by **Priyanshu Kumar Thakur** ([gravion-ux](https://github.com/gravion-ux)) — terminal-first bot with a modern web command deck.
+
+- Portfolio: https://gravion-ux.github.io/portfolio/
+- X: https://x.com/gravion_ux
+- Gravion Pets: https://github.com/gravion-ux/gravion-pets
+
+
 Gravion Bot is Priyanshu Kumar Thakur's terminal-first bot project with a separate web command deck. The original bot workflow remains in the existing workspace packages; the web shell in `web/` adds browser access without changing the original bot logic.
 
 ## Run & Operate
