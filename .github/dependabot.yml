@@ -1,0 +1,38 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/artifacts/api-server"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/artifacts/mockup-sandbox"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/lib/api-client-react"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/lib/api-spec"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/lib/api-zod"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/lib/db"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/scripts"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
