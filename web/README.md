@@ -15,6 +15,11 @@ Open `http://127.0.0.1:8765`.
 - `/help` — list available web commands.
 - `/pets` — show Gravion Pets info and link: https://github.com/gravion-ux/gravion-pets
 - `/status` — show web shell and bot endpoint status.
+- `/ping` — check that the web shell is responding.
+- `/about` — show what Gravion Bot is and who built it.
+- `/projects` — list flagship Gravion projects.
+- `/links` — show Gravion profile and project links.
+- `/version` — show the web shell version.
 
 These commands are handled by the web shell and do not modify the original bot code.
 

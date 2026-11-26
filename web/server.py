@@ -28,11 +28,29 @@ STATIC_FILES = {
 }
 
 PETS_URL = "https://github.com/gravion-ux/gravion-pets"
+GITHUB_URL = "https://github.com/gravion-ux"
+PORTFOLIO_URL = "https://gravion-ux.github.io/portfolio/"
+X_URL = "https://x.com/gravion_ux"
+WEB_SHELL_VERSION = "1.1.0"
+
+PROJECTS = [
+    ("wp-cve-hunter", "WordPress vulnerability research toolkit."),
+    ("llm-redteam-kit", "LLM red-teaming test kit."),
+    ("mcp-shield", "Security guardrails for MCP servers."),
+    ("jwt-auditor", "JWT security auditing tool."),
+    ("gravion-ai", "Gravion AI platform."),
+    ("gravion-pets", "Virtual pet project with collectible pets and progression."),
+]
 
 COMMANDS = [
     {"command": "/help", "description": "Show available web commands."},
     {"command": "/pets", "description": "Show Gravion Pets info and link."},
     {"command": "/status", "description": "Show web shell and bot endpoint status."},
+    {"command": "/ping", "description": "Check that the web shell is responding."},
+    {"command": "/about", "description": "Show what Gravion Bot is and who built it."},
+    {"command": "/projects", "description": "List flagship Gravion projects."},
+    {"command": "/links", "description": "Show Gravion profile and project links."},
+    {"command": "/version", "description": "Show the web shell version."},
 ]
 
 
@@ -53,7 +71,41 @@ def pets_reply() -> str:
 
 def status_reply() -> str:
     state = "configured" if bot_configured() else "not configured yet"
-    return f"Gravion Bot web shell is online. Bot endpoint: {state}. Built-in commands: /help, /pets, /status."
+    names = ", ".join(item["command"] for item in COMMANDS)
+    return f"Gravion Bot web shell is online. Bot endpoint: {state}. Built-in commands: {names}."
+
+
+def ping_reply() -> str:
+    return "pong — Gravion Bot web shell is responding."
+
+
+def about_reply() -> str:
+    return (
+        "Gravion Bot is Priyanshu Kumar Thakur's terminal-first bot project with a separate "
+        "web command deck. The web shell adds browser access without changing the original bot logic."
+    )
+
+
+def projects_reply() -> str:
+    lines = ["Flagship Gravion projects:"]
+    for name, description in PROJECTS:
+        lines.append(f"{name} — {description} {GITHUB_URL}/{name}")
+    return "\n".join(lines)
+
+
+def links_reply() -> str:
+    return "\n".join(
+        [
+            f"GitHub: {GITHUB_URL}",
+            f"Portfolio: {PORTFOLIO_URL}",
+            f"X: {X_URL}",
+            f"Gravion Pets: {PETS_URL}",
+        ]
+    )
+
+
+def version_reply() -> str:
+    return f"Gravion Bot web shell version {WEB_SHELL_VERSION}."
 
 
 def built_in_reply(message: str) -> str | None:
@@ -64,6 +116,16 @@ def built_in_reply(message: str) -> str | None:
         return pets_reply()
     if command == "/status":
         return status_reply()
+    if command == "/ping":
+        return ping_reply()
+    if command == "/about":
+        return about_reply()
+    if command == "/projects":
+        return projects_reply()
+    if command == "/links":
+        return links_reply()
+    if command == "/version":
+        return version_reply()
     return None
 
 
